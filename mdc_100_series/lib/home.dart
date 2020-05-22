@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:Shrine/supplemental/asymmetric_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -36,8 +37,9 @@ class HomePage extends StatelessWidget {
       return products.map((product) {
         return Card(
           clipBehavior: Clip.antiAlias,
+          elevation: 0.0,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               AspectRatio(
                 aspectRatio: 18.0 / 11.0,
@@ -51,17 +53,20 @@ class HomePage extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        product.name,
+                        product == null ? '' : product.name,
                         style: theme.textTheme.title,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                       ),
                       SizedBox(height: 8.0),
                       Text(
-                        formatter.format(product.price),
-                        style: theme.textTheme.body2,
+                        product == null ? '' : formatter.format(product.price),
+                        style: theme.textTheme.caption,
                       ),
                     ],
                   ),
@@ -113,11 +118,8 @@ class HomePage extends StatelessWidget {
         ),
       ),
       // TODO: Add a grid view (102)
-      body: GridView.count(
-        crossAxisCount: 2,
-        padding: EdgeInsets.all(16.0),
-        childAspectRatio: 8.0 / 9.0,
-        children: _buildGridCards(context),
+      body: AsymmetricView(
+        products: ProductsRepository.loadProducts(Category.all)
       ),
       // TODO: Set resizeToAvoidBottomInset (101)
       resizeToAvoidBottomInset: false,
