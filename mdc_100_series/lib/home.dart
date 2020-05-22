@@ -79,50 +79,16 @@ class HomePage extends StatelessWidget {
   }
   
   // TODO: Add a variable for Category (104)
+  final Category category;
+
+  const HomePage({this.category: Category.all});
+
   @override
   Widget build(BuildContext context) {
     // TODO: Return an AsymmetricView (104)
     // TODO: Pass Category variable to AsymmetricView (104)
-    return Scaffold(
-      // TODO: Add app bar (102)
-      appBar: AppBar(
-        title: Text('SHRINE'),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(
-                  Icons.search,
-                semanticLabel: 'search',
-              ),
-              onPressed: () {
-                print('Search Button');
-              }
-          ),
-          IconButton(
-              icon: Icon(
-                Icons.tune,
-                semanticLabel: 'filter',
-              ),
-              onPressed: () {
-                print('Filter Button');
-              }
-          ),
-        ],
-        leading: IconButton(
-            icon: Icon(
-                Icons.menu,
-              semanticLabel: 'menu',
-            ),
-            onPressed: () {
-              print('Menu Button');
-            }
-        ),
-      ),
-      // TODO: Add a grid view (102)
-      body: AsymmetricView(
-        products: ProductsRepository.loadProducts(Category.all)
-      ),
-      // TODO: Set resizeToAvoidBottomInset (101)
-      resizeToAvoidBottomInset: false,
+    return AsymmetricView(
+        products: ProductsRepository.loadProducts(category)
     );
   }
 }
